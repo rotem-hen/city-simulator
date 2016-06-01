@@ -1,0 +1,56 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">ניהול עומסים</h4>
+        </div>
+        <div class="modal-body">
+            <div>
+                <table id="load-mgmt-table" class="table-condensed table-bordered">
+                    <tr>
+                        <td>שעות</td>
+                        <td>שיעור תפוסה (באחוזים)</td>
+                        <td>כמות חניות שיפונו</td>
+                        <td>כמות נהגים עם אפליקציה</td>
+                        <td>כמות נהגים בלי אפליקציה</td>
+                    </tr>
+                    <tr id="morning">
+                        <td>בוקר 7-12</td>
+                        <td id="morning-capacity-rate"><input type="number" class="form-control"></td>
+                        <td id="morning-num-parking-to-free"><input type="number" class="form-control"></td>
+                        <td id="morning-drivers-with-app"><input type="number" class="form-control"></td>
+                        <td id="morning-drivers-without-app"><input type="number" class="form-control"></td>
+                    </tr>
+                    <tr id="noon">
+                        <td>צהריים 12-17</td>
+                        <td id="noon-capacity-rate"><input type="number" class="form-control"></td>
+                        <td id="noon-num-parking-to-free"><input type="number" class="form-control"></td>
+                        <td id="noon-drivers-with-app"><input type="number" class="form-control"></td>
+                        <td id="noon-drivers-without-app"><input type="number" class="form-control"></td>
+                    </tr>
+                    <tr id="evening">
+                        <td>ערב 17-22</td>
+                        <td id="evening-capacity-rate"><input type="number" class="form-control"></td>
+                        <td id="evening-num-parking-to-free"><input type="number" class="form-control"></td>
+                        <td id="evening-drivers-with-app"><input type="number" class="form-control"></td>
+                        <td id="evening-drivers-without-app"><input type="number" class="form-control"></td>
+                    </tr>
+                    <tr id="night">
+                        <td>לילה 22-7</td>
+                        <td id="night-capacity-rate"><input type="number" class="form-control"></td>
+                        <td id="night-num-parking-to-free"><input type="number" class="form-control"></td>
+                        <td id="night-drivers-with-app"><input type="number" class="form-control"></td>
+                        <td id="night-drivers-without-app"><input type="number" class="form-control"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
+            <button id="save-load-mgmt" type="button" class="btn btn-primary">שמור שינויים</button>
+        </div>
+    </div>
+</div>

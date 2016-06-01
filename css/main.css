@@ -1,0 +1,123 @@
+@CHARSET "utf-8";
+
+#map-div {
+  float: left;
+  height: 100vh;
+  width: 70%;
+}
+
+#controls-div {
+  float: right;
+  height: 100vh;
+  width: 30%;
+  background-color: #bbe6ff;
+}
+
+h1 {
+	margin-top: 5%;
+	margin-right: 5%;
+	font-size: 300%;
+	color: #002b71;
+	font-weight: bold;
+}
+
+.aria-label {
+	margin-right: 5%;
+	margin-left: 5%;
+	font-size: 200%;
+	color: #002b71;
+}
+
+#controls-div form {
+	margin: 5%;
+}
+
+#scripts-list {
+	width: 100%;
+}
+
+#scripts-list select {
+	margin: 5%;
+	height: 50px;
+	width: 90%;
+}
+
+.btn-success {
+	margin: 5%;
+	line-height: 50px;
+	width: 90%;
+	font-size: 200%;
+}
+
+.btn-info {
+	margin: 1%;
+	line-height: 100%;
+	font-size: 185%;
+	white-space: normal;
+}
+
+#run-button-div, #settings-button-div, #delete-script-button-div, #delete-polygon-button-div {
+	text-align: center;
+}
+
+#settings-button-div {
+	margin-top: 50%;
+}
+
+#year-buttons-div {
+	margin: 5%;
+	text-align: center;
+}
+
+.year-button {
+	line-height: 120%;
+	width: 18%;
+	font-size: 185%;
+	white-space: normal;
+}
+
+input.form-control {
+	margin-right: 5%;
+	height: 50px;
+	width: 70%;
+	font-size: 140%;
+}
+
+#load-mgmt-table input {
+	width: 90%;
+	height: 45px;
+	font-size: 100%;
+	margin: 5%;
+}
+
+#load-mgmt-table {
+	font-size: 150%;
+	color: #268297;
+	text-align: center;
+}
+
+.modal select {
+	margin-right: 5%;
+	height: 40px;
+	width: 90%;
+	font-size: 100%;
+}
+
+#select-polygon-for-script-list {
+	margin-right: 5%;
+}
+
+#select-polygon-for-script-list .ms-choice {
+	height: 40px;
+	width: 90%;
+	font-size: 100%;
+	text-align: right;
+}
+
+#mark-polygon-div {
+    margin-right: 5%;
+    border: 1px solid black;
+    width: 90%;
+    height: 300px;
+    text-align: center;
+}

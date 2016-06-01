@@ -1,0 +1,9 @@
+.idea
+bin
+_project
+node_modules
+reports
+server
+desktop.ini
+**/*.bat
+**/*.log

@@ -1,0 +1,255 @@
+{
+  "scripts": [
+    {
+      "name": "test script 1",
+      "mainArea": 1,
+      "polygons": [
+        "7"
+      ],
+      "parkingGrowthRate": 1,
+      "id": 5
+    },
+    {
+      "name": "script1",
+      "mainArea": 1,
+      "polygons": [
+        "11"
+      ],
+      "parkingGrowthRate": 0,
+      "id": 6
+    }
+  ],
+  "polygons": [
+    {
+      "name": "polygon1",
+      "mainArea": 1,
+      "coordinates": [
+        {
+          "lat": 32.08633454639802,
+          "lng": 34.79280451929253
+        },
+        {
+          "lat": 32.080650133429195,
+          "lng": 34.79432553881247
+        },
+        {
+          "lat": 32.08251904921104,
+          "lng": 34.78884714523656
+        }
+      ],
+      "morning": {
+        "capacity": 10,
+        "numParkingToFree": 2,
+        "driversWithApp": 5,
+        "driversWithoutApp": 5
+      },
+      "noon": {
+        "capacity": 20,
+        "numParkingToFree": 2,
+        "driversWithApp": 5,
+        "driversWithoutApp": 5
+      },
+      "evening": {
+        "capacity": 30,
+        "numParkingToFree": 2,
+        "driversWithApp": 5,
+        "driversWithoutApp": 5
+      },
+      "night": {
+        "capacity": 10,
+        "numParkingToFree": 2,
+        "driversWithApp": 5,
+        "driversWithoutApp": 5
+      },
+      "id": 7
+    },
+    {
+      "name": "polygon2",
+      "mainArea": 1,
+      "coordinates": [
+        {
+          "lat": 32.08815257285505,
+          "lng": 34.78748304463409
+        },
+        {
+          "lat": 32.08246815988488,
+          "lng": 34.78900409440439
+        },
+        {
+          "lat": 32.084337075665495,
+          "lng": 34.783525591856005
+        }
+      ],
+      "morning": {
+        "capacity": 10,
+        "numParkingToFree": 2,
+        "driversWithApp": 5,
+        "driversWithoutApp": 5
+      },
+      "noon": {
+        "capacity": 10,
+        "numParkingToFree": 2,
+        "driversWithApp": 5,
+        "driversWithoutApp": 5
+      },
+      "evening": {
+        "capacity": 10,
+        "numParkingToFree": 2,
+        "driversWithApp": 5,
+        "driversWithoutApp": 5
+      },
+      "night": {
+        "capacity": 10,
+        "numParkingToFree": 2,
+        "driversWithApp": 5,
+        "driversWithoutApp": 5
+      },
+      "id": 8
+    },
+    {
+      "name": "polygon3",
+      "mainArea": 1,
+      "coordinates": [
+        {
+          "lat": 32.08629818955097,
+          "lng": 34.7930191112971
+        },
+        {
+          "lat": 32.08061377658216,
+          "lng": 34.79454013021234
+        },
+        {
+          "lat": 32.081537288487766,
+          "lng": 34.78635807212845
+        }
+      ],
+      "morning": {
+        "capacity": 50,
+        "numParkingToFree": 1,
+        "driversWithApp": 10,
+        "driversWithoutApp": 10
+      },
+      "noon": {
+        "capacity": 60,
+        "numParkingToFree": 1,
+        "driversWithApp": 10,
+        "driversWithoutApp": 10
+      },
+      "evening": {
+        "capacity": 70,
+        "numParkingToFree": 1,
+        "driversWithApp": 10,
+        "driversWithoutApp": 10
+      },
+      "night": {
+        "capacity": 80,
+        "numParkingToFree": 1,
+        "driversWithApp": 10,
+        "driversWithoutApp": 10
+      },
+      "id": 9
+    },
+    {
+      "name": "polygon4",
+      "mainArea": 1,
+      "coordinates": [
+        {
+          "lat": 32.090188627942936,
+          "lng": 34.78014451070851
+        },
+        {
+          "lat": 32.08843728104968,
+          "lng": 34.79382257423083
+        },
+        {
+          "lat": 32.07934100420337,
+          "lng": 34.791021098262036
+        },
+        {
+          "lat": 32.07921004280532,
+          "lng": 34.77120889689377
+        }
+      ],
+      "morning": {
+        "capacity": 95,
+        "numParkingToFree": 1,
+        "driversWithApp": 100,
+        "driversWithoutApp": 100
+      },
+      "noon": {
+        "capacity": 95,
+        "numParkingToFree": 1,
+        "driversWithApp": 100,
+        "driversWithoutApp": 100
+      },
+      "evening": {
+        "capacity": 95,
+        "numParkingToFree": 1,
+        "driversWithApp": 100,
+        "driversWithoutApp": 100
+      },
+      "night": {
+        "capacity": 95,
+        "numParkingToFree": 1,
+        "driversWithApp": 100,
+        "driversWithoutApp": 100
+      },
+      "id": 10
+    },
+    {
+      "name": "poly1",
+      "mainArea": 1,
+      "coordinates": [
+        {
+          "lat": 32.088952505014255,
+          "lng": 34.785637716559336
+        },
+        {
+          "lat": 32.08792828552948,
+          "lng": 34.791462282373345
+        },
+        {
+          "lat": 32.08326809204351,
+          "lng": 34.78715877964066
+        },
+        {
+          "lat": 32.085137007823576,
+          "lng": 34.7816802291411
+        }
+      ],
+      "morning": {
+        "capacity": 90,
+        "numParkingToFree": 0,
+        "driversWithApp": 0,
+        "driversWithoutApp": 100
+      },
+      "noon": {
+        "capacity": 90,
+        "numParkingToFree": 0,
+        "driversWithApp": 0,
+        "driversWithoutApp": 100
+      },
+      "evening": {
+        "capacity": 90,
+        "numParkingToFree": 0,
+        "driversWithApp": 0,
+        "driversWithoutApp": 100
+      },
+      "night": {
+        "capacity": 90,
+        "numParkingToFree": 0,
+        "driversWithApp": 0,
+        "driversWithoutApp": 100
+      },
+      "id": 11
+    }
+  ],
+  "parkingDBs": [
+    {
+      "id": 1,
+      "name": "תל אביב",
+      "link": "parkingSpaceDB.json"
+    }
+  ],
+  "drivers": []
+}

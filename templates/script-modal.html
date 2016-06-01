@@ -1,0 +1,50 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group" id="script-name">
+                <label class="aria-label text">שם התסריט:</label>
+                <input
+                        type="text" class="form-control" id="script-name-input"
+                        placeholder="שם התסריט">
+                <select id="script-name-combo" class="form-control">
+                    <option value="0" class="text">--בחר--</option>
+                </select>
+            </div>
+            <div class="form-group" id="main-area-script">
+                <label class="aria-label text">אזור ראשי:</label> <select
+                    id="main-area-script-input" class="form-control">
+                <option value="0" class="text">--בחר--</option>
+            </select>
+            </div>
+            <div class="form-group" id="select-polygon-for-script">
+                <label class="aria-label text">בחר פוליגונים:</label>
+                <div id="select-polygon-for-script-list">
+                    <select id="multiple-dropdown" multiple="multiple">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" id="parking-growth-rate">
+                <label class="aria-label text">קצב גדילת מקומות חניה:</label>
+                <input
+                        type="number" class="form-control" id="parking-growth-rate-input"
+                        placeholder="קצב גדילת מקומות חניה">
+            </div>
+            <div class="form-group" id="delete-script-button-div">
+                <button id="delete-script" type="button" class="btn btn-danger">מחיקת
+                    תסריט</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
+            <button id="save-script" type="button" class="btn btn-primary">שמור
+                שינויים</button>
+        </div>
+    </div>
+</div>

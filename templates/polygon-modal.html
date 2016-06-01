@@ -1,0 +1,44 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group" id="polygon-name">
+                <label class="aria-label text">שם הפוליגון:</label> <input
+                    type="text" class="form-control" id="polygon-name-input"
+                    placeholder="שם הפוליגון"> <select
+                    id="polygon-name-combo" class="form-control">
+                <option value="0" class="text">--בחר--</option>
+            </select>
+            </div>
+            <div class="form-group" id="main-area-polygon">
+                <label class="aria-label text">אזור ראשי:</label> <select
+                    id="main-area-polygon-input" class="form-control">
+                <option value="0" class="text">--בחר--</option>
+            </select>
+            </div>
+            <div class="form-group" id="mark-poligon">
+                <label class="aria-label text">סמן פוליגון:</label>
+                <div id="mark-polygon-div">mark</div>
+            </div>
+            <div class="form-group" id="load-mgmt-button-div">
+                <button id="load-mgmt" type="button" data-toggle="modal" data-target="#load-management-modal" class="btn btn-success">ניהול
+                    עומסים</button>
+            </div>
+            <div class="form-group" id="delete-polygon-button-div">
+                <button id="delete-polygon" type="button" class="btn btn-danger">מחיקת
+                    פוליגון</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
+            <button id="save-polygon" type="button" class="btn btn-primary">שמור
+                שינויים</button>
+        </div>
+    </div>
+</div>
