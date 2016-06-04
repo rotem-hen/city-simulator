@@ -5,17 +5,25 @@ var ClockModel = Backbone.Model.extend({
         initMin: 0,
         initSec: 0,
         clockAdvanceInterval: 10, // 10 seconds
-        interval: 50 // in miliseconds
+        interval: 20 // in miliseconds
     },
 
+    initialTime: null,
+    
     timeEvents: {},
 
     initialize: function () {
         // Init the clock
-        var initialTime = moment()
+        this.initialTime = moment()
             .hour(this.settings.initHour).minute(this.settings.initMin).second(this.settings.initSec);
-        // set to the initial time in seconds
-        this.set('time', initialTime.unix());
+        this.set('time', this.initialTime.unix());
+    },
+
+    // set to the initial time in seconds
+    restartClock : function () {
+        this.stopTicking();
+        this.set('time', this.initialTime.unix());
+        this.startTicking();
     },
 
     getTime: function () {
@@ -27,11 +35,15 @@ var ClockModel = Backbone.Model.extend({
     },
 
     startTicking: function () {
-        window.setInterval(function () {
+        this.clockRun = window.setInterval(function () {
             var currentTime = this.get('time');
-            this.onTick(currentTime);
             this.set('time', currentTime + this.settings.clockAdvanceInterval);
+            this.onTick(currentTime);
         }.bind(this), this.settings.interval);
+    },
+
+    stopTicking: function () {
+        window.clearInterval(this.clockRun);
     },
 
     addEvent: function (timeMoment, func) {
@@ -47,9 +59,7 @@ var ClockModel = Backbone.Model.extend({
             return;
         }
 
-        this.timeEvents[time].forEach ( function (func) {
-           func();
-        });
+        this.timeEvents[time].forEach ( func => func());
     },
 
     resetTimeEvents: function () {

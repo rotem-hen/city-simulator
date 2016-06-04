@@ -4,7 +4,8 @@ App.RunningScript = new function () {
 
     _this.script = null;
     _this.routeSpots = [];
-    _this.stats = {withApp: [], withoutApp: []};
+    _this.isRunWithApp = true;
+    _this.daysToRun = 1;
     _this.dayPeriods = {morning:  {from: 7, to: 12},
                         noon:     {from: 12, to: 17},
                         evening:  {from: 17, to: 22},
@@ -128,7 +129,6 @@ App.RunningScript = new function () {
     var updateSpotsInDb = function (polygon, dayPeriod) {
         var spots = allSpotsInPolygon(polygon, true),
             totalNumOfSpots = spots.length,
-            //spotsInitially = totalNumOfSpots / _this.script.get('parkingGrowthRate'),
             numOfOccupied = polygon.get(dayPeriod).capacity * totalNumOfSpots / 100,
             occupiedIds = chooseRandomSpots(spots, numOfOccupied);
 
@@ -148,7 +148,7 @@ App.RunningScript = new function () {
 
         var closestSpotId = -1,
             closestSpotDistance = Infinity,
-            max = driver.get('isWithApp') ? 50 : 0;
+            max = _this.isRunWithApp && driver.get('isWithApp') ? 50 : 0;
 
         closeSpots.forEach(function (p) {
             var parkingSpot = App.Coords_tlv.get(p);
@@ -161,18 +161,15 @@ App.RunningScript = new function () {
 
         if (closestSpotId != -1) {
             var id = driver.cid,
-                isWith = driver.get('isWithApp') ? 'WITH' : 'WITHOUT',
-                duration = moment.duration(App.Clock.getTime().diff(driver.get('timeCreated'))).asSeconds();
+                isWith = _this.isRunWithApp && driver.get('isWithApp'),
+                isWithString =  isWith ? 'WITH' : 'WITHOUT',
+                duration = moment.duration(App.Clock.getTime().diff(driver.get('timeCreated'))).asMinutes();
 
-            console.log(App.Clock.getTimeString() + ': driver ' + id + ', ' + isWith + ' app, parked in ' + closestSpotId + ' after ' + duration + ' seconds.');
-            var statsProp = driver.get('isWithApp') ? 'withApp' : 'withoutApp',
-                statsAr = _this.stats[statsProp];
-            statsAr.push(duration);
-            var avg = statsAr.length === 0 ? 0
-                : (statsAr.reduce(function(memo, num) {
-                    return memo + num;
-                }, 0) / statsAr.length);
-            $('#' + statsProp + 'Avg').text(avg.toFixed(2));
+            console.log(App.Clock.getTimeString() + ': driver ' + id + ', ' +
+                            isWithString + ' app, parked in ' + closestSpotId + ' after ' +
+                            duration.toFixed(1) + ' minutes.');
+
+            App.DataHandling.processNewData(_this.isRunWithApp, isWith, duration);
             var closestSpot = App.Coords_tlv.get(closestSpotId);
             App.Maps.addMarker(new google.maps.LatLng(closestSpot.get('lat'), closestSpot.get('lng')));
             closestSpot.set({isFree: false});
@@ -200,19 +197,22 @@ App.RunningScript = new function () {
     };
 
     var startDayPeriod = function (dayPeriod) {
-        // delete previous data
-        App.Drivers.reset();
-        App.Coords_tlv.each(function (coord) {
-            if (!coord.get('isFree')) coord.set({isFree: true});
-        });
+        // reset data and set new (only if it's with-app run)
+        if (_this.isRunWithApp) {
 
-        // set drivers and parking spots for each polygon
-        _this.script.get('polygons').forEach(function (polygonId) {
-            var polygon = App.Polygons.get(parseInt(polygonId));
-            addAllDrivers(polygon, dayPeriod);
-            updateSpotsInDb(polygon, dayPeriod);
-        });
+            //delete previous data
+            App.Drivers.reset();
+            App.Coords_tlv.each(function (coord) {
+                if (!coord.get('isFree')) coord.set({isFree: true});
+            });
 
+            // set drivers and parking spots for each polygon
+            _this.script.get('polygons').forEach(function (polygonId) {
+                var polygon = App.Polygons.get(parseInt(polygonId));
+                addAllDrivers(polygon, dayPeriod);
+                updateSpotsInDb(polygon, dayPeriod);
+            });
+        }
         console.info('Day Period: ' + dayPeriod.toUpperCase());
 
         // start running
@@ -220,14 +220,13 @@ App.RunningScript = new function () {
 
             App.Drivers.each(function (driver) {
                 // go forward 100 meters (10 meters at every step)
-                for (var i = 0; i < 10 && !driver.get('found'); i++) {
+                for (var i = 0; i < 1 && !driver.get('found'); i++) {
                     checkForFreeSpot(driver);
                     oneStep(driver);
                 }
             });
         };
 
-        // run
         App.Clock.on('change:time',onTimeChange);
         var nextPeriodTime = App.Clock.getTime().hour(_this.dayPeriods[dayPeriod].to).minute(0).second(0);
         App.Clock.addEvent(nextPeriodTime, function () {
@@ -238,9 +237,8 @@ App.RunningScript = new function () {
     // main - running script
     _this.main = function () {
         _this.routeSpots = App.Routes.pluck('id');
-        _this.stats = {withApp: [], withoutApp: []};
 
-        for (var i = 0; i < 1; i++) { // number of days to run
+        for (var i = 0; i < _this.daysToRun; i++) { // number of days to run
             _.each(_this.dayPeriods, function (dayPeriodVals, dayPeriodName){
                 var startTime = App.Clock.getTime().add(i, 'day').hour(dayPeriodVals.from).minute(0).second(0);
                 console.log('Registering event at', startTime.format());
@@ -260,6 +258,21 @@ App.RunningScript = new function () {
         _this.script = App.Scripts.get(scriptId);
         //$('#year-buttons-div').show(500);
         _this.main();
+
+        console.log("reset clock at", moment()
+            .hour(App.Clock.settings.initHour)
+            .minute(App.Clock.settings.initMin)
+            .second(App.Clock.settings.initSec)
+            .add(_this.daysToRun, 'day'));
+        App.Clock.addEvent(moment()
+                .hour(App.Clock.settings.initHour)
+                .minute(App.Clock.settings.initMin)
+                .second(App.Clock.settings.initSec)
+                .add(_this.daysToRun, 'day'),
+            _.once(() => {
+                _this.isRunWithApp = false;
+                App.Clock.restartClock();
+            }));
     };
 
 }();
