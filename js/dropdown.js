@@ -2,12 +2,12 @@ App.Dropdown = new function () {
 
 	var _this = this;
 
-	// fill scripts to drop-down list
-	_this.fillScriptsNames = function (select) {
+	// fill scenarios to drop-down list
+	_this.fillScenariosNames = function (select) {
 		$(select).append($('<option value=-1>--בחר--</option>'));
-		App.Scripts.each (function (script) {
-			var name = script.get('name');
-			$(select).append($('<option value=' + script.id + '>' + name + '</option>)'));
+		App.Scenarios.each (function (scenario) {
+			var name = scenario.get('name');
+			$(select).append($('<option value=' + scenario.id + '>' + name + '</option>)'));
 		});
 	};
 

@@ -16,7 +16,7 @@
 
 /**
  * @fileoverview Externs for the Google Maps v3.23 API.
- * @see http://code.google.com/apis/maps/documentation/javascript/reference.html
+ * @see http://code.google.com/apis/maps/documentation/javascenario/reference.html
  * @externs
  */
 
@@ -2410,7 +2410,7 @@ google.maps.KmlFeatureData.prototype.author;
 /**
  * @type {string}
  */
-google.maps.KmlFeatureData.prototype.description;
+google.maps.KmlFeatureData.prototype.descenarioion;
 
 /**
  * @type {string}
@@ -2512,7 +2512,7 @@ google.maps.KmlLayerMetadata.prototype.author;
 /**
  * @type {string}
  */
-google.maps.KmlLayerMetadata.prototype.description;
+google.maps.KmlLayerMetadata.prototype.descenarioion;
 
 /**
  * @type {boolean}
@@ -4663,7 +4663,7 @@ google.maps.StreetViewLink = function() {};
 /**
  * @type {string}
  */
-google.maps.StreetViewLink.prototype.description;
+google.maps.StreetViewLink.prototype.descenarioion;
 
 /**
  * @type {number}
@@ -4683,7 +4683,7 @@ google.maps.StreetViewLocation = function() {};
 /**
  * @type {string}
  */
-google.maps.StreetViewLocation.prototype.description;
+google.maps.StreetViewLocation.prototype.descenarioion;
 
 /**
  * @type {google.maps.LatLng}
@@ -4698,7 +4698,7 @@ google.maps.StreetViewLocation.prototype.pano;
 /**
  * @type {string}
  */
-google.maps.StreetViewLocation.prototype.shortDescription;
+google.maps.StreetViewLocation.prototype.shortDescenarioion;
 
 /**
  * @interface
@@ -5880,7 +5880,7 @@ google.maps.places.AutocompletePrediction = function() {};
 /**
  * @type {string}
  */
-google.maps.places.AutocompletePrediction.prototype.description;
+google.maps.places.AutocompletePrediction.prototype.descenarioion;
 
 /**
  * @type {Array<google.maps.places.PredictionSubstring>}
@@ -6343,7 +6343,7 @@ google.maps.places.QueryAutocompletePrediction = function() {};
 /**
  * @type {string}
  */
-google.maps.places.QueryAutocompletePrediction.prototype.description;
+google.maps.places.QueryAutocompletePrediction.prototype.descenarioion;
 
 /**
  * @type {Array<google.maps.places.PredictionSubstring>}

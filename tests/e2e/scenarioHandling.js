@@ -1,5 +1,5 @@
 module.exports = {
-    'New Script test1' : function (browser) {
+    'New Scenario test1' : function (browser) {
         browser
             .url('http://localhost:3000/')
             .pause(3000);
@@ -16,25 +16,25 @@ module.exports = {
         // expect <#settings-modal> to have attribute 'display' which equals to 'block'
         browser.expect.element('#settings-modal').to.have.css('display').which.equals('block');
 
-        browser.click('#new-script')
-            .waitForElementVisible('#new-update-script-modal', 1000);
+        browser.click('#new-scenario')
+            .waitForElementVisible('#new-update-scenario-modal', 1000);
 
-        // expect <#new-update-script-modal> to have attribute 'display' which contains text 'block'
-        browser.expect.element('#new-update-script-modal').to.have.css('display').which.equals('block');
+        // expect <#new-update-scenario-modal> to have attribute 'display' which contains text 'block'
+        browser.expect.element('#new-update-scenario-modal').to.have.css('display').which.equals('block');
 
-        browser.setValue('#script-name-input', 'test script 1')
-            .click('#main-area-script-input')
-            .click('#main-area-script-input option[value="1"]')
+        browser.setValue('#scenario-name-input', 'test scenario 1')
+            .click('#main-area-scenario-input')
+            .click('#main-area-scenario-input option[value="1"]')
             .click('.ms-choice')
             .click('input[type="checkbox"]')
             .pause(3000)
             .setValue('#parking-growth-rate-input', 1)
-            .click('#save-script');
+            .click('#save-scenario');
 
         browser.end();
     },
 
-    'New Script test2' : function (browser) {
+    'New Scenario test2' : function (browser) {
         browser
             .url('http://localhost:3000/')
             .pause(2000);
@@ -51,18 +51,18 @@ module.exports = {
         // expect <#settings-modal> to have attribute 'display' which equals to 'block'
         browser.expect.element('#settings-modal').to.have.css('display').which.equals('block');
 
-        browser.click('#new-script')
-            .waitForElementVisible('#new-update-script-modal', 5000);
+        browser.click('#new-scenario')
+            .waitForElementVisible('#new-update-scenario-modal', 5000);
 
-        // expect <#new-update-script-modal> to have attribute 'display' which contains text 'block'
-        browser.expect.element('#new-update-script-modal').to.have.css('display').which.equals('block');
+        // expect <#new-update-scenario-modal> to have attribute 'display' which contains text 'block'
+        browser.expect.element('#new-update-scenario-modal').to.have.css('display').which.equals('block');
 
-        browser.setValue('#script-name-input', 'test script 1')
-            .click('#main-area-script-input')
-            .click('#main-area-script-input option[value="1"]')
+        browser.setValue('#scenario-name-input', 'test scenario 1')
+            .click('#main-area-scenario-input')
+            .click('#main-area-scenario-input option[value="1"]')
             .click('.ms-choice')
             .click('input[type="checkbox"]')
-            .click('#save-script')
+            .click('#save-scenario')
             .pause(100)
             .getAlertText(function (result) {
                 browser.assert.equal(result.value, 'שדות חסרים או לא תקינים.');
@@ -72,7 +72,7 @@ module.exports = {
         browser.end();
     },
 
-    'Updated Script test1' : function (browser) {
+    'Updated Scenario test1' : function (browser) {
         browser
             .url('http://localhost:3000/')
             .pause(2000);
@@ -89,21 +89,21 @@ module.exports = {
         // expect <#settings-modal> to have attribute 'display' which equals to 'block'
         browser.expect.element('#settings-modal').to.have.css('display').which.equals('block');
 
-        browser.click('#update-script')
-            .waitForElementVisible('#new-update-script-modal', 5000);
+        browser.click('#update-scenario')
+            .waitForElementVisible('#new-update-scenario-modal', 5000);
 
-        // expect <#new-update-script-modal> to have attribute 'display' which contains text 'block'
-        browser.expect.element('#new-update-script-modal').to.have.css('display').which.equals('block');
+        // expect <#new-update-scenario-modal> to have attribute 'display' which contains text 'block'
+        browser.expect.element('#new-update-scenario-modal').to.have.css('display').which.equals('block');
 
-        browser.click('#script-name-combo')
-            .click('#script-name-combo option')
+        browser.click('#scenario-name-combo')
+            .click('#scenario-name-combo option')
             .setValue('#parking-growth-rate-input', '2')
-            .click('#save-script');
+            .click('#save-scenario');
 
         browser.end();
     },
 
-    'Updated Script test2' : function (browser) {
+    'Updated Scenario test2' : function (browser) {
         browser
             .url('http://localhost:3000/')
             .pause(2000);
@@ -120,16 +120,16 @@ module.exports = {
         // expect <#settings-modal> to have attribute 'display' which equals to 'block'
         browser.expect.element('#settings-modal').to.have.css('display').which.equals('block');
 
-        browser.click('#update-script')
-            .waitForElementVisible('#new-update-script-modal', 5000);
+        browser.click('#update-scenario')
+            .waitForElementVisible('#new-update-scenario-modal', 5000);
 
-        // expect <#new-update-script-modal> to have attribute 'display' which contains text 'block'
-        browser.expect.element('#new-update-script-modal').to.have.css('display').which.equals('block');
+        // expect <#new-update-scenario-modal> to have attribute 'display' which contains text 'block'
+        browser.expect.element('#new-update-scenario-modal').to.have.css('display').which.equals('block');
 
-        browser.click('#script-name-combo')
-            .click('#script-name-combo option')
+        browser.click('#scenario-name-combo')
+            .click('#scenario-name-combo option')
             .clearValue('#parking-growth-rate-input')
-            .click('#save-script')
+            .click('#save-scenario')
             .pause(100)
             .getAlertText(function (result) {
                 browser.assert.equal(result.value, 'שדות חסרים או לא תקינים.');
@@ -138,7 +138,7 @@ module.exports = {
         browser.end();
     },
 
-    'Delete Script test1' : function (browser) {
+    'Delete Scenario test1' : function (browser) {
         browser
             .url('http://localhost:3000/')
             .pause(2000);
@@ -155,15 +155,15 @@ module.exports = {
         // expect <#settings-modal> to have attribute 'display' which equals to 'block'
         browser.expect.element('#settings-modal').to.have.css('display').which.equals('block');
 
-        browser.click('#update-script')
-            .waitForElementVisible('#new-update-script-modal', 5000);
+        browser.click('#update-scenario')
+            .waitForElementVisible('#new-update-scenario-modal', 5000);
 
-        // expect <#new-update-script-modal> to have attribute 'display' which contains text 'block'
-        browser.expect.element('#new-update-script-modal').to.have.css('display').which.equals('block');
+        // expect <#new-update-scenario-modal> to have attribute 'display' which contains text 'block'
+        browser.expect.element('#new-update-scenario-modal').to.have.css('display').which.equals('block');
 
-        browser.click('#script-name-combo')
-            .click('#script-name-combo option')
-            .click('#delete-script');
+        browser.click('#scenario-name-combo')
+            .click('#scenario-name-combo option')
+            .click('#delete-scenario');
 
         browser.end();
     }

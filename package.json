@@ -30,6 +30,7 @@
     "sinon-chai": "^2.8.0"
   },
   "scripts": {
+    "start": "json-server db/db.json --static ./",
     "test": "node node_modules/karma/bin/karma start --single-run",
     "e2e": "node node_modules/nightwatch/bin/runner.js"
   },

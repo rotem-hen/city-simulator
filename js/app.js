@@ -7,24 +7,28 @@ App.main = function () {
 	App.Maps.initMainMap();
 
 	// fetch database
-	App.Scripts.fetch();
+	App.Scenarios.fetch();
 	App.Polygons.fetch();
 	App.Drivers.fetch();
 	App.ParkingDBs.fetch();
 	App.Coords_tlv.fetch();
 	App.Routes.fetch();
 
-	App.Scripts.on('sync', function () {
-		$('#main-scripts-dd').empty();
-		App.Dropdown.fillScriptsNames('#main-scripts-dd');
+	App.Scenarios.on('sync', function () {
+		$('#main-scenarios-dd').empty();
+		App.Dropdown.fillScenariosNames('#main-scenarios-dd');
 	});
 
-	// hide years buttons
+	// hide buttons
 	$('#year-buttons-div').hide();
+    $('#stop').hide();
 
 	// assign action to button
-	$('#run').click(App.RunningScript.onRunClick);
-
+	$('#run').click(App.RunningScenario.onRunClick);
+    $('#stop').click(App.RunningScenario.onStopClick);
+    $('#year-buttons-div button').click((event) => App.DataHandling.onYearButtonClick(event.target.id));
+    
+    // place holder for the multiple select
 	$('#multiple-dropdown').multipleSelect({
 		placeholder: '--בחר--'
 	});
@@ -36,33 +40,33 @@ App.main = function () {
 
     // on settings modal load
     function onSettingsModalLoad () {
-        $('#new-script').click(App.Script.onNewScriptClick);
-        $('#update-script').click(App.Script.onUpdateScriptClick);
-        $('#new-polygon').click(App.Polygon.onNewPolygonClick);
-        $('#update-polygon').click(App.Polygon.onUpdatePolygonClick);
+        $('#new-scenario').click(App.ScenarioHandling.onNewScenarioClick);
+        $('#update-scenario').click(App.ScenarioHandling.onUpdateScenarioClick);
+        $('#new-polygon').click(App.PolygonHandling.onNewPolygonClick);
+        $('#update-polygon').click(App.PolygonHandling.onUpdatePolygonClick);
     }
 
-    // on script modal load
-    function onScriptModalLoad () {
-        $('#save-script').click(App.Script.onSaveScriptClick);
-        $('#delete-script').click(App.Script.onDeleteScriptClick);
-        // fill script fields when drop-down element selected
-        $('#script-name-combo').change (function () {
-            if ($('#script-name-combo').val() == -1) {
+    // on scenario modal load
+    function onScenarioModalLoad () {
+        $('#save-scenario').click(App.ScenarioHandling.onSaveScenarioClick);
+        $('#delete-scenario').click(App.ScenarioHandling.onDeleteScenarioClick);
+        // fill scenario fields when drop-down element selected
+        $('#scenario-name-combo').change (function () {
+            if ($('#scenario-name-combo').val() == -1) {
 
-                $('#delete-script').prop('disabled', true);
+                $('#delete-scenario').prop('disabled', true);
 
             } else {
 
-                $('#delete-script').prop('disabled', false);
+                $('#delete-scenario').prop('disabled', false);
 
-                var scriptId = $('#script-name-combo').val(),
-                    script = App.Scripts.get(parseInt(scriptId)),
-                    mainArea = script.get('mainArea'),
-                    polygons = script.get('polygons'),
-                    growthRate = script.get('parkingGrowthRate');
+                var scenarioId = $('#scenario-name-combo').val(),
+                    scenario = App.Scenarios.get(parseInt(scenarioId)),
+                    mainArea = scenario.get('mainArea'),
+                    polygons = scenario.get('polygons'),
+                    growthRate = scenario.get('parkingGrowthRate');
 
-                $('#main-area-script-input').val(mainArea);
+                $('#main-area-scenario-input').val(mainArea);
                 $('#multiple-dropdown').multipleSelect('setSelects', polygons);
                 $('#parking-growth-rate-input').val(growthRate);
             }
@@ -71,8 +75,8 @@ App.main = function () {
 
     // on polygon modal load
     function onPolygonModalLoad () {
-        $('#save-polygon').click(App.Polygon.onSavePolygonClick);
-        $('#delete-polygon').click(App.Polygon.onDeletePolygonClick);
+        $('#save-polygon').click(App.PolygonHandling.onSavePolygonClick);
+        $('#delete-polygon').click(App.PolygonHandling.onDeletePolygonClick);
         // fill polygon fields when drop-down element selected
         $('#polygon-name-combo').change (function () {
             if ($('#polygon-name-combo').val() == -1) {
@@ -100,7 +104,7 @@ App.main = function () {
                     });
                 };
 
-                _.keys(App.RunningScript.dayPeriods).forEach (function (dayPeriod) {
+                _.keys(App.RunningScenario.dayPeriods).forEach (function (dayPeriod) {
                     setLoadMgmtValues(dayPeriod);
                 });
             }
@@ -109,16 +113,18 @@ App.main = function () {
 
     // on load-management modal load
     function onLoadMgmtModalLoad () {
-        $('#save-load-mgmt').click(App.Polygon.onSaveLoadMgmtClick);
+        $('#save-load-mgmt').click(App.PolygonHandling.onSaveLoadMgmtClick);
     }
     
     // load all templates
     function loadTemplates () {
 
-        $("#settings-modal").load("templates/settings-modal.html", onSettingsModalLoad);
-        $("#new-update-script-modal").load("templates/script-modal.html", onScriptModalLoad);
-        $("#new-update-polygon-modal").load("templates/polygon-modal.html", onPolygonModalLoad);
-        $("#load-management-modal").load("templates/load-mgmt-modal.html", onLoadMgmtModalLoad);
+        $('#settings-modal').load('templates/settings-modal.html', onSettingsModalLoad);
+        $('#new-update-scenario-modal').load('templates/scenario-modal.html', onScenarioModalLoad);
+        $('#new-update-polygon-modal').load('templates/polygon-modal.html', onPolygonModalLoad);
+        $('#load-management-modal').load('templates/load-mgmt-modal.html', onLoadMgmtModalLoad);
+        $('#statistics-modal').load('templates/statistics-modal.html');
+
     }
 
     loadTemplates();

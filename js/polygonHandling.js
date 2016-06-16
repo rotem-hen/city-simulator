@@ -1,4 +1,4 @@
-App.Polygon = new function () {
+App.PolygonHandling = new function () {
 
 	var _this = this;
 
@@ -102,7 +102,7 @@ App.Polygon = new function () {
 		};
 
 		var values = {};
-		_.keys(App.RunningScript.dayPeriods).forEach (function (dayPeriod) {
+		_.keys(App.RunningScenario.dayPeriods).forEach (function (dayPeriod) {
 			values[dayPeriod] = getValues(dayPeriod);
 		});
 		_this.loadMgmtValues = values;
@@ -110,12 +110,12 @@ App.Polygon = new function () {
 		$('#load-management-modal').modal('hide');
 	};
 
-	// delete polygon from all scripts it's in
-	var deletePolygonFromScripts = function (polyId) {
-		App.Scripts.each (function (script) {
-			var polygons = script.get('polygons');
-			script.set({polygons: _.without(polygons, polyId)});
-			script.save();
+	// delete polygon from all scenarios it's in
+	var deletePolygonFromScenarios = function (polyId) {
+		App.Scenarios.each (function (scenario) {
+			var polygons = scenario.get('polygons');
+			scenario.set({polygons: _.without(polygons, polyId)});
+			scenario.save();
 		});
 	};
 
@@ -124,7 +124,20 @@ App.Polygon = new function () {
 		var polygonId = $('#polygon-name-combo').val();
 		var polygon = App.Polygons.get(parseInt(polygonId));
 		polygon.destroy();
-		deletePolygonFromScripts(polygonId);
+		deletePolygonFromScenarios(polygonId);
 		$('#new-update-polygon-modal').modal('hide');
 	};
+
+	// get number of drivers in the polygon
+	_this.getTotalNumOfDrivers = function (polyId) {
+		var totalNum = 0,
+            polygon = App.Polygons.get(polyId);
+        _.each(App.RunningScenario.dayPeriods, function (dayPeriodVals, dayPeriodName) {
+            totalNum += polygon.get(dayPeriodName)['driversWithApp'];
+            totalNum += polygon.get(dayPeriodName)['driversWithoutApp'];
+        });
+
+        return totalNum;
+	};
+
 }();

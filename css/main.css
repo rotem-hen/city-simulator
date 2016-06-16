@@ -32,11 +32,11 @@ h1 {
 	margin: 5%;
 }
 
-#scripts-list {
+#scenarios-list {
 	width: 100%;
 }
 
-#scripts-list select {
+#scenarios-list select {
 	margin: 5%;
 	height: 50px;
 	width: 90%;
@@ -56,7 +56,7 @@ h1 {
 	white-space: normal;
 }
 
-#run-button-div, #settings-button-div, #delete-script-button-div, #delete-polygon-button-div {
+#run-button-div, #settings-button-div, #delete-scenario-button-div, #delete-polygon-button-div {
 	text-align: center;
 }
 
@@ -103,11 +103,11 @@ input.form-control {
 	font-size: 100%;
 }
 
-#select-polygon-for-script-list {
+#select-polygon-for-scenario-list {
 	margin-right: 5%;
 }
 
-#select-polygon-for-script-list .ms-choice {
+#select-polygon-for-scenario-list .ms-choice {
 	height: 40px;
 	width: 90%;
 	font-size: 100%;
@@ -120,4 +120,14 @@ input.form-control {
     width: 90%;
     height: 300px;
     text-align: center;
+}
+
+#chart {
+	direction: ltr;
+}
+
+#stop {
+	color: #fff;
+	background-color: #c9302c;
+	border-color: #ac2925;
 }

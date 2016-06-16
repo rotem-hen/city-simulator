@@ -78,7 +78,7 @@ module.exports = {
         browser.click('#new-polygon')
             .waitForElementVisible('#new-update-polygon-modal', 5000);
 
-        // expect <#new-update-script-modal> to have attribute 'display' which contains text 'block'
+        // expect <#new-update-scenario-modal> to have attribute 'display' which contains text 'block'
         browser.expect.element('#new-update-polygon-modal').to.have.css('display').which.equals('block');
 
         browser.setValue('#polygon-name-input', 'test polygon 1')
@@ -115,7 +115,7 @@ module.exports = {
         browser.click('#update-polygon')
             .waitForElementVisible('#new-update-polygon-modal', 5000);
 
-        // expect <#new-update-script-modal> to have attribute 'display' which contains text 'block'
+        // expect <#new-update-scenario-modal> to have attribute 'display' which contains text 'block'
         browser.expect.element('#new-update-polygon-modal').to.have.css('display').which.equals('block');
 
         browser.click('#polygon-name-combo')
@@ -159,7 +159,7 @@ module.exports = {
         browser.click('#update-polygon')
             .waitForElementVisible('#new-update-polygon-modal', 5000);
 
-        // expect <#new-update-script-modal> to have attribute 'display' which contains text 'block'
+        // expect <#new-update-scenario-modal> to have attribute 'display' which contains text 'block'
         browser.expect.element('#new-update-polygon-modal').to.have.css('display').which.equals('block');
 
         browser.click('#polygon-name-combo')
@@ -202,7 +202,7 @@ module.exports = {
         browser.click('#update-polygon')
             .waitForElementVisible('#new-update-polygon-modal', 5000);
 
-        // expect <#new-update-script-modal> to have attribute 'display' which contains text 'block'
+        // expect <#new-update-scenario-modal> to have attribute 'display' which contains text 'block'
         browser.expect.element('#new-update-polygon-modal').to.have.css('display').which.equals('block');
 
         browser.click('#polygon-name-combo')

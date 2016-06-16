@@ -1,15 +1,15 @@
-describe('Handling scripts', function () {
+describe('Handling scenarios', function () {
 
     var fixture, alertStub, saveStub, setStub, createStub, destroyStub;
 
     before(function () {
         fixture = $("<div id='fixture'></div>");
         $("body").append(fixture);
-        App.Scripts.add({id: 100});
+        App.Scenarios.add({id: 100});
     });
 
     beforeEach(function () {
-        fixture.html(window.__html__['templates/script-modal.html']);
+        fixture.html(window.__html__['templates/scenario-modal.html']);
         alertStub = sinon.stub(window, 'alert');
         saveStub = sinon.stub(Backbone.Model.prototype, 'save');
         setStub = sinon.stub(Backbone.Model.prototype, 'set');
@@ -17,93 +17,93 @@ describe('Handling scripts', function () {
         destroyStub = sinon.stub(Backbone.Model.prototype, 'destroy');
     });
 
-    describe('onNewScriptClick', function () {
+    describe('onNewScenarioClick', function () {
 
         beforeEach(function () {
-            App.Script.onNewScriptClick();
+            App.ScenarioHandling.onNewScenarioClick();
         });
 
         it('should reset form for new', function () {
-            App.Script.scriptMode.should.equal('new');
-            $('#script-name-input').should.be.visible;
-            $('#script-name-combo').should.not.be.visible;
-            $('#delete-script-button-div').should.not.be.visible;
-            $('#script-name-input').should.have.value('');
+            App.ScenarioHandling.scenarioMode.should.equal('new');
+            $('#scenario-name-input').should.be.visible;
+            $('#scenario-name-combo').should.not.be.visible;
+            $('#delete-scenario-button-div').should.not.be.visible;
+            $('#scenario-name-input').should.have.value('');
             $('#parking-growth-rate-input').should.have.value('');
         });
     });
 
-    describe('onUpdateScriptClick', function () {
+    describe('onUpdateScenarioClick', function () {
 
         beforeEach(function () {
-            App.Script.onUpdateScriptClick();
+            App.ScenarioHandling.onUpdateScenarioClick();
         });
 
         it('should reset form for updated', function () {
-            App.Script.scriptMode.should.equal('update');
-            $('#script-name-input').should.not.be.visible;
-            $('#script-name-combo').should.be.visible;
-            $('#delete-script-button-div').should.be.visible;
-            $('#delete-script').should.be.disabled;
+            App.ScenarioHandling.scenarioMode.should.equal('update');
+            $('#scenario-name-input').should.not.be.visible;
+            $('#scenario-name-combo').should.be.visible;
+            $('#delete-scenario-button-div').should.be.visible;
+            $('#delete-scenario').should.be.disabled;
             $('#parking-growth-rate-input').should.have.value('');
         });
     });
 
-    describe('onSaveScriptClick - new', function () {
+    describe('onSaveScenarioClick - new', function () {
 
         beforeEach(function () {
             $('#multiple-dropdown').empty();
-            $('#main-area-script-input').empty();
+            $('#main-area-scenario-input').empty();
             var option = $('<option />', {value: 100, text: '0'});
             $('#multiple-dropdown').append(option).multipleSelect('refresh');
-            $('#main-area-script-input').append(option);
-            App.Script.scriptMode = 'new';
+            $('#main-area-scenario-input').append(option);
+            App.ScenarioHandling.scenarioMode = 'new';
         });
 
-        describe('save invalid script', function () {
+        describe('save invalid scenario', function () {
 
             it('should alert wrong input', function () {
-                App.Script.onSaveScriptClick();
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
-                $('#script-name-input').val('script');
-                App.Script.onSaveScriptClick();
+                $('#scenario-name-input').val('scenario');
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
-                $('#script-name-input').val('script');
-                $('#main-area-script-input').val(100);
-                App.Script.onSaveScriptClick();
+                $('#scenario-name-input').val('scenario');
+                $('#main-area-scenario-input').val(100);
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
-                $('#script-name-input').val('script');
-                $('#main-area-script-input').val(100);
+                $('#scenario-name-input').val('scenario');
+                $('#main-area-scenario-input').val(100);
                 $('#parking-growth-rate-input').val(0);
-                App.Script.onSaveScriptClick();
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
-                $('#main-area-script-input').val(100);
+                $('#main-area-scenario-input').val(100);
                 $('#multiple-dropdown').multipleSelect('checkAll');
-                App.Script.onSaveScriptClick();
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
         });
 
-        describe('save valid script', function () {
+        describe('save valid scenario', function () {
 
             it('should pass validation and call save', function () {
-                $('#script-name-input').val('script');
-                $('#main-area-script-input').val(100);
+                $('#scenario-name-input').val('scenario');
+                $('#main-area-scenario-input').val(100);
                 $('#parking-growth-rate-input').val(0);
                 $('#multiple-dropdown').multipleSelect('checkAll');
-                App.Script.onSaveScriptClick();
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.not.be.calledWith('שדות חסרים או לא תקינים.');
                 createStub.should.have.been.calledOnce;
                 setStub.should.not.have.been.calledOnce;
@@ -112,62 +112,62 @@ describe('Handling scripts', function () {
         });
     });
 
-    describe('onSaveScriptClick - update', function () {
+    describe('onSaveScenarioClick - update', function () {
 
         beforeEach(function () {
             $('#multiple-dropdown').empty();
-            $('#main-area-script-input').empty();
+            $('#main-area-scenario-input').empty();
             var option = $('<option />', {value: 100, text: '0'});
             $('#multiple-dropdown').append(option).multipleSelect('refresh');
-            $('#main-area-script-input').append(option);
-            $('#script-name-combo').append(option);
-            App.Script.scriptMode = 'update';
+            $('#main-area-scenario-input').append(option);
+            $('#scenario-name-combo').append(option);
+            App.ScenarioHandling.scenarioMode = 'update';
         });
 
-        describe('save invalid script', function () {
+        describe('save invalid scenario', function () {
 
             it('should alert wrong input', function () {
-                App.Script.onSaveScriptClick();
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
-                $('#script-name-combo').val(100);
-                App.Script.onSaveScriptClick();
+                $('#scenario-name-combo').val(100);
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
-                $('#script-name-combo').val(100);
-                $('#main-area-script-input').val(100);
-                App.Script.onSaveScriptClick();
+                $('#scenario-name-combo').val(100);
+                $('#main-area-scenario-input').val(100);
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
-                $('#script-name-combo').val(100);
-                $('#main-area-script-input').val(100);
+                $('#scenario-name-combo').val(100);
+                $('#main-area-scenario-input').val(100);
                 $('#parking-growth-rate-input').val(0);
-                App.Script.onSaveScriptClick();
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
-                $('#main-area-script-combo').val(100);
+                $('#main-area-scenario-combo').val(100);
                 $('#multiple-dropdown').multipleSelect('checkAll');
-                App.Script.onSaveScriptClick();
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
         });
 
-        describe('save valid script', function () {
+        describe('save valid scenario', function () {
 
             it('should pass validation and call save', function () {
-                $('#script-name-combo').val(100);
-                $('#main-area-script-input').val(100);
+                $('#scenario-name-combo').val(100);
+                $('#main-area-scenario-input').val(100);
                 $('#parking-growth-rate-input').val(0);
                 $('#multiple-dropdown').multipleSelect('checkAll');
-                App.Script.onSaveScriptClick();
+                App.ScenarioHandling.onSaveScenarioClick();
                 alertStub.should.not.be.calledWith('שדות חסרים או לא תקינים.');
                 createStub.should.not.have.been.calledOnce;
                 setStub.should.have.been.calledOnce;
@@ -176,14 +176,14 @@ describe('Handling scripts', function () {
         });
     });
 
-    describe('onDeleteScriptClick', function () {
+    describe('onDeleteScenarioClick', function () {
 
         beforeEach(function () {
             var option = $('<option />', {value: 100, text: '0'});
-            $('#script-name-combo').append(option);
-            $('#script-name-combo').val(100);
-            App.Script.scriptMode = 'update';
-            App.Script.onDeleteScriptClick();
+            $('#scenario-name-combo').append(option);
+            $('#scenario-name-combo').val(100);
+            App.ScenarioHandling.scenarioMode = 'update';
+            App.ScenarioHandling.onDeleteScenarioClick();
         });
 
         it('should call destroy', function () {

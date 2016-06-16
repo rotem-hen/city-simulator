@@ -1,15 +1,28 @@
-App.RunningScript = new function () {
+App.RunningScenario = new function () {
 
     var _this = this;
 
-    _this.script = null;
+    _this.scenario = null;
     _this.routeSpots = [];
     _this.isRunWithApp = true;
+    _this.spotsToOccupyAfterAppRun = {morning: [], noon: [], evening: [], night: []};
+    _this.spotsToFreeAfterAppRun = {morning: [], noon: [], evening: [], night: []};
     _this.daysToRun = 1;
     _this.dayPeriods = {morning:  {from: 7, to: 12},
                         noon:     {from: 12, to: 17},
                         evening:  {from: 17, to: 22},
                         night:    {from: 22, to: 24+7}}; // 7 of the next day
+
+    // reset parking spots (free or occupy) after with-app run finished
+    var resetSpotsAfterAppRun = function (dayPeriod) {
+        _this.spotsToFreeAfterAppRun[dayPeriod].forEach(spot =>
+            App.Coords_tlv.get(spot).set({isFree: true}));
+
+        _this.spotsToOccupyAfterAppRun[dayPeriod].forEach(spot => {
+            App.Coords_tlv.get(spot).set({isFree: false});
+            App.Maps.addMarkerById(spot, 'red');
+        });
+    };
 
     // find all spots in a polygon
     var allSpotsInPolygon = function (polygon, withRoutes) {
@@ -92,6 +105,7 @@ App.RunningScript = new function () {
         App.Clock.addEvent(time, function () {
             App.Coords_tlv.get(spot).set({isFree: true});
         });
+        _this.spotsToOccupyAfterAppRun[dayPeriod].push(spot);
     };
 
     // add all drivers to db
@@ -135,11 +149,12 @@ App.RunningScript = new function () {
         occupiedIds.forEach(function (id) {
             App.Coords_tlv.get(id).set({isFree: false});
             addSpotEvent(dayPeriod, id);
+			App.Maps.addMarkerById(id, 'red');
         });
     };
 
     // check if there is a close free parking spot
-    var checkForFreeSpot = function (driver) {
+    var checkForFreeSpot = function (driver, dayPeriod) {
         var route = driver.get('route'),
             position = driver.get('currLocation');
         var coordOnRouteId = route[position],
@@ -169,10 +184,10 @@ App.RunningScript = new function () {
                             isWithString + ' app, parked in ' + closestSpotId + ' after ' +
                             duration.toFixed(1) + ' minutes.');
 
+            _this.spotsToFreeAfterAppRun[dayPeriod].push(closestSpotId);
             App.DataHandling.processNewData(_this.isRunWithApp, isWith, duration);
-            var closestSpot = App.Coords_tlv.get(closestSpotId);
-            App.Maps.addMarker(new google.maps.LatLng(closestSpot.get('lat'), closestSpot.get('lng')));
-            closestSpot.set({isFree: false});
+            App.Maps.addMarkerById(closestSpotId, 'blue');
+            App.Coords_tlv.get(closestSpotId).set({isFree: false});
             driver.set({found: true});
         }
     };
@@ -197,17 +212,20 @@ App.RunningScript = new function () {
     };
 
     var startDayPeriod = function (dayPeriod) {
-        // reset data and set new (only if it's with-app run)
+        // reset previous data
+        App.Drivers.reset();
+        App.Maps.clearAllMarkers();
+        if (!_this.isRunWithApp)
+            resetSpotsAfterAppRun(dayPeriod);
+        // set new data (only if it's with-app run)
         if (_this.isRunWithApp) {
 
-            //delete previous data
-            App.Drivers.reset();
             App.Coords_tlv.each(function (coord) {
                 if (!coord.get('isFree')) coord.set({isFree: true});
             });
 
             // set drivers and parking spots for each polygon
-            _this.script.get('polygons').forEach(function (polygonId) {
+            _this.scenario.get('polygons').forEach(function (polygonId) {
                 var polygon = App.Polygons.get(parseInt(polygonId));
                 addAllDrivers(polygon, dayPeriod);
                 updateSpotsInDb(polygon, dayPeriod);
@@ -221,7 +239,7 @@ App.RunningScript = new function () {
             App.Drivers.each(function (driver) {
                 // go forward 100 meters (10 meters at every step)
                 for (var i = 0; i < 1 && !driver.get('found'); i++) {
-                    checkForFreeSpot(driver);
+                    checkForFreeSpot(driver, dayPeriod);
                     oneStep(driver);
                 }
             });
@@ -234,8 +252,15 @@ App.RunningScript = new function () {
         });
     };
 
-    // main - running script
+    // main - running scenario
     _this.main = function () {
+        $('#year-buttons-div').hide();
+        $('#settings').prop('disabled', true);
+        $('#run').hide();
+        $('#stop').show();
+        _this.isRunWithApp = true;
+        App.DataHandling.stats = [];
+        App.DataHandling.savedMinutes = 0;
         _this.routeSpots = App.Routes.pluck('id');
 
         for (var i = 0; i < _this.daysToRun; i++) { // number of days to run
@@ -251,28 +276,55 @@ App.RunningScript = new function () {
         App.Clock.startTicking();
     };
 
-    // run script button clicked
+    // run scenario button clicked
     _this.onRunClick = function () {
-        var scriptId = $('#main-scripts-dd').val();
-        if (scriptId == -1) return;
-        _this.script = App.Scripts.get(scriptId);
-        //$('#year-buttons-div').show(500);
+        var scenarioId = $('#main-scenarios-dd').val();
+        if (scenarioId == -1) return;
+        _this.scenario = App.Scenarios.get(scenarioId);
         _this.main();
 
-        console.log("reset clock at", moment()
-            .hour(App.Clock.settings.initHour)
-            .minute(App.Clock.settings.initMin)
-            .second(App.Clock.settings.initSec)
-            .add(_this.daysToRun, 'day'));
         App.Clock.addEvent(moment()
                 .hour(App.Clock.settings.initHour)
                 .minute(App.Clock.settings.initMin)
                 .second(App.Clock.settings.initSec)
                 .add(_this.daysToRun, 'day'),
-            _.once(() => {
-                _this.isRunWithApp = false;
-                App.Clock.restartClock();
-            }));
+            () => {
+                if (_this.isRunWithApp) {
+                    switchRuns();
+                } else {
+                    onRunEnd();
+                }
+            });
+    };
+
+    _this.onStopClick = function () {
+        App.DataHandling.stats = [];
+        App.DataHandling.savedMinutes = 0;
+        App.Clock.resetClock();
+        App.Clock.resetTimeEvents();
+        $('#with-app-avg').text('-');
+        $('#without-app-avg').text('-');
+        App.Maps.clearAllMarkers();
+        $('#stop').hide();
+        $('#run').show();
+    };
+    
+    var switchRuns = function () {
+        _this.isRunWithApp = false;
+        $('#with-app-avg').text('-');
+        App.Clock.resetClock();
+        App.Clock.startTicking();
+    };
+
+    var onRunEnd = function () {
+        App.Clock.resetClock();
+        App.Clock.resetTimeEvents();
+        App.Maps.clearAllMarkers();
+        App.DataHandling.calculateSavedMinutes();
+        $('#year-buttons-div').show(500);
+        $('#settings').prop('disabled', false);
+        $('#stop').hide();
+        $('#run').show();
     };
 
 }();

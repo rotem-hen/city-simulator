@@ -5,7 +5,7 @@ var ClockModel = Backbone.Model.extend({
         initMin: 0,
         initSec: 0,
         clockAdvanceInterval: 10, // 10 seconds
-        interval: 20 // in miliseconds
+        interval: 5 // in miliseconds
     },
 
     initialTime: null,
@@ -20,10 +20,9 @@ var ClockModel = Backbone.Model.extend({
     },
 
     // set to the initial time in seconds
-    restartClock : function () {
+    resetClock : function () {
         this.stopTicking();
         this.set('time', this.initialTime.unix());
-        this.startTicking();
     },
 
     getTime: function () {

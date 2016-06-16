@@ -28,11 +28,11 @@ describe('Handling polygons', function () {
     describe('onNewPolygonClick', function () {
 
         beforeEach(function () {
-            App.Polygon.onNewPolygonClick();
+            App.PolygonHandling.onNewPolygonClick();
         });
 
         it('should reset form for new', function () {
-            App.Polygon.polygonMode.should.equal('new');
+            App.PolygonHandling.polygonMode.should.equal('new');
             $('#polygon-name-input').should.be.visible;
             $('#polygon-name-combo').should.not.be.visible;
             $('#delete-polygon-button-div').should.not.be.visible;
@@ -47,11 +47,11 @@ describe('Handling polygons', function () {
     describe('onUpdatePolygonClick', function () {
 
         beforeEach(function () {
-            App.Polygon.onUpdatePolygonClick();
+            App.PolygonHandling.onUpdatePolygonClick();
         });
 
         it('should reset form for updated', function () {
-            App.Polygon.polygonMode.should.equal('update');
+            App.PolygonHandling.polygonMode.should.equal('update');
             $('#polygon-name-input').should.not.be.visible;
             $('#polygon-name-combo').should.be.visible;
             $('#delete-polygon-button-div').should.be.visible;
@@ -66,32 +66,32 @@ describe('Handling polygons', function () {
             $('#main-area-polygon-input').empty();
             var option = $('<option />', {value: 100, text: '0'});
             $('#main-area-polygon-input').append(option);
-            App.Polygon.polygonMode = 'new';
+            App.PolygonHandling.polygonMode = 'new';
         });
 
         describe('save invalid polygon', function () {
 
             it('should alert wrong input', function () {
-                App.Polygon.onSavePolygonClick();
+                App.PolygonHandling.onSavePolygonClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
                 $('#polygon-name-input').val('polygon');
-                App.Polygon.onSavePolygonClick();
+                App.PolygonHandling.onSavePolygonClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
                 $('#main-area-polygon-input').val(100);
-                App.Polygon.onSavePolygonClick();
+                App.PolygonHandling.onSavePolygonClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
            it('should alert wrong input', function () {
                 $('#polygon-name-input').val('polygon');
                 $('#main-area-polygon-input').val(100);
-                App.Polygon.onSavePolygonClick();
+                App.PolygonHandling.onSavePolygonClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
         });
@@ -104,7 +104,7 @@ describe('Handling polygons', function () {
                 $('#load-mgmt-table td input').each(function (index, element) {
                     element.value = 1;
                 });
-                App.Polygon.onSavePolygonClick();
+                App.PolygonHandling.onSavePolygonClick();
                 alertStub.should.not.be.calledWith('שדות חסרים או לא תקינים.');
                 createStub.should.have.been.calledOnce;
                 setStub.should.not.have.been.calledOnce;
@@ -120,32 +120,32 @@ describe('Handling polygons', function () {
             var option = $('<option />', {value: 100, text: '0'});
             $('#main-area-polygon-input').append(option);
             $('#polygon-name-combo').append(option);
-            App.Polygon.polygonMode = 'update';
+            App.PolygonHandling.polygonMode = 'update';
         });
 
         describe('save invalid polygon', function () {
 
             it('should alert wrong input', function () {
-                App.Polygon.onSavePolygonClick();
+                App.PolygonHandling.onSavePolygonClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
                 $('#polygon-name-combo').val(100);
-                App.Polygon.onSavePolygonClick();
+                App.PolygonHandling.onSavePolygonClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
                 $('#main-area-polygon-input').val(100);
-                App.Polygon.onSavePolygonClick();
+                App.PolygonHandling.onSavePolygonClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
 
             it('should alert wrong input', function () {
                 $('#polygon-name-combo').val(100);
                 $('#main-area-polygon-input').val(100);
-                App.Polygon.onSavePolygonClick();
+                App.PolygonHandling.onSavePolygonClick();
                 alertStub.should.be.calledWith('שדות חסרים או לא תקינים.');
             });
         });
@@ -158,7 +158,7 @@ describe('Handling polygons', function () {
                 $('#load-mgmt-table td input').each(function (index, element) {
                     element.value = 1;
                 });
-                App.Polygon.onSavePolygonClick();
+                App.PolygonHandling.onSavePolygonClick();
                 alertStub.should.not.be.calledWith('שדות חסרים או לא תקינים.');
                 createStub.should.not.have.been.calledOnce;
                 setStub.should.have.been.calledOnce;
@@ -173,19 +173,19 @@ describe('Handling polygons', function () {
             var option = $('<option />', {value: 100, text: '0'});
             $('#polygon-name-combo').append(option);
             $('#polygon-name-combo').val(100);
-            App.Polygon.polygonMode = 'update';
+            App.PolygonHandling.polygonMode = 'update';
         });
 
-        it('should call destroy - no scripts', function () {
-            App.Polygon.onDeletePolygonClick();
+        it('should call destroy - no scenarios', function () {
+            App.PolygonHandling.onDeletePolygonClick();
             destroyStub.should.have.been.calledOnce;
             setStub.should.have.not.been.calledOnce;
             saveStub.should.have.not.been.calledOnce;
         });
 
-        it('should call destroy - script exist', function () {
-            var script = App.Scripts.add({id: 100});
-            App.Polygon.onDeletePolygonClick();
+        it('should call destroy - scenario exist', function () {
+            var scenario = App.Scenarios.add({id: 100});
+            App.PolygonHandling.onDeletePolygonClick();
             destroyStub.should.have.been.calledOnce;
             setStub.should.have.been.calledTwice;
             saveStub.should.have.been.calledOnce;

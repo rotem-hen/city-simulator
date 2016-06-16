@@ -59,14 +59,27 @@ App.Maps = new function () {
         });
     };
 
+	// add a marker to the map
+    _this.addMarkerById = function (id, color) {
+        var spot = App.Coords_tlv.get(id),
+			loc = new google.maps.LatLng(spot.get('lat'), spot.get('lng'));
+        _this.addMarker(loc, color);
+    };
+	
     // add a marker to the map
-    _this.addMarker = function (loc) {
+    _this.addMarker = function (loc, color) {
         var marker = new google.maps.Marker({
             position: loc,
             map: _this.mainMap
         });
-
+		if (color) marker.setIcon('http://maps.google.com/mapfiles/ms/icons/' + color + '-dot.png')
         _this.markers.push(marker);
+    };
+
+    // removes the markers from the map and the array
+    _this.clearAllMarkers = function () {
+        _this.markers.forEach(marker => marker.setMap(null));
+        _this.markers = [];
     };
 
     // convert degrees to radiation
