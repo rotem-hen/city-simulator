@@ -163,7 +163,7 @@ App.RunningScenario = new function () {
 
         var closestSpotId = -1,
             closestSpotDistance = Infinity,
-            max = _this.isRunWithApp && driver.get('isWithApp') ? 50 : 0;
+            max = _this.isRunWithApp && driver.get('isWithApp') ? 100 : 0;
 
         closeSpots.forEach(function (p) {
             var parkingSpot = App.Coords_tlv.get(p);
