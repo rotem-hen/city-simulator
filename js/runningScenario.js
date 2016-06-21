@@ -234,7 +234,7 @@ App.RunningScenario = new function () {
         console.info('Day Period: ' + dayPeriod.toUpperCase());
 
         // start running
-        var onTimeChange = function () {
+        _this.onTimeChange = function () {
 
             App.Drivers.each(function (driver) {
                 // go forward 100 meters (10 meters at every step)
@@ -245,10 +245,10 @@ App.RunningScenario = new function () {
             });
         };
 
-        App.Clock.on('change:time',onTimeChange);
+        App.Clock.on('change:time', _this.onTimeChange);
         var nextPeriodTime = App.Clock.getTime().hour(_this.dayPeriods[dayPeriod].to).minute(0).second(0);
         App.Clock.addEvent(nextPeriodTime, function () {
-            App.Clock.off('change:time',onTimeChange);
+            App.Clock.off('change:time', _this.onTimeChange);
         });
     };
 
@@ -300,11 +300,13 @@ App.RunningScenario = new function () {
     _this.onStopClick = function () {
         App.DataHandling.stats = [];
         App.DataHandling.savedMinutes = 0;
+        App.Clock.off('change:time',_this.onTimeChange);
         App.Clock.resetClock();
         App.Clock.resetTimeEvents();
         $('#with-app-avg').text('-');
         $('#without-app-avg').text('-');
         App.Maps.clearAllMarkers();
+        $('#settings').prop('disabled', false);
         $('#stop').hide();
         $('#run').show();
     };

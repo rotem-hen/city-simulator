@@ -32,6 +32,8 @@ module.exports = function (config) {
             'js/maps.js',
             'js/scenarioHandling.js',
             'js/polygonHandling.js',
+            'js/dataHandling.js',
+            'js/runningScenario.js',
             'js/dropdown.js',
             'js/validation.js',
             'js/databaseOps.js',

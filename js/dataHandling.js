@@ -4,6 +4,7 @@ App.DataHandling = new function () {
 
     _this.stats = [];
     _this.savedMinutes = 0;
+	_this.minutePrice = 0.5;
     _this.chartValues = {2: ['0.5', '1', '1.5', '2'],
                         4: ['1', '2', '3', '4'],
                         6: ['1.5', '3', '4.5', '6'],
@@ -49,7 +50,8 @@ App.DataHandling = new function () {
 
     // button action for the statistics year buttons
     _this.onYearButtonClick = function (id) {
-        drawChart(calculateDataByYear(id));
+        _this.chartsData = calculateDataByYear(id);
+        drawChart(_this.chartsData);
         $('#statistics-modal').modal('show');
     };
 
@@ -73,11 +75,10 @@ App.DataHandling = new function () {
 
     // calculate saved money for every period of time
     var calculateSavedMoney = function (id, minPerDriverYear) {
-        var res = [],
-            minutePrice = 0.5;
+        var res = [];
 
         _this.chartValues[id].forEach ( function (years) {
-            res.push((minPerDriverYear * years * minutePrice * Math.pow(1.01, years - 1)).toFixed(0));
+            res.push((minPerDriverYear * years * _this.minutePrice * Math.pow(1.01, years - 1)).toFixed(0));
         });
 
         return res;
@@ -87,7 +88,7 @@ App.DataHandling = new function () {
     var calculateSavedPollution = function (id) {
         var res = [],
 			decreaseTimePercent = _this.savedMinutes * 100 / _this.withoutAppTotal,
-			decreasePollutionPercent = decreaseTimePercent / 3;
+			decreasePollutionPercent = decreaseTimePercent * 0.15;
 		
 		_this.chartValues[id].forEach ( function (years) {
             res.push((decreasePollutionPercent * Math.pow(1.01, years - 1)).toFixed(2));

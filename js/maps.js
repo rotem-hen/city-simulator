@@ -72,7 +72,8 @@ App.Maps = new function () {
             position: loc,
             map: _this.mainMap
         });
-		if (color) marker.setIcon('http://maps.google.com/mapfiles/ms/icons/' + color + '-dot.png')
+		//if (color) marker.setIcon('http://maps.google.com/mapfiles/ms/icons/' + color + '-dot.png')
+        if (color) marker.setIcon('images/' + color + 'Marker.png');
         _this.markers.push(marker);
     };
 

@@ -309,25 +309,25 @@
         }
       ],
       "morning": {
-        "capacity": 80,
+        "capacity": 50,
         "numParkingToFree": 0,
         "driversWithApp": 100,
         "driversWithoutApp": 100
       },
       "noon": {
-        "capacity": 80,
+        "capacity": 50,
         "numParkingToFree": 0,
         "driversWithApp": 100,
         "driversWithoutApp": 100
       },
       "evening": {
-        "capacity": 80,
+        "capacity": 50,
         "numParkingToFree": 0,
         "driversWithApp": 100,
         "driversWithoutApp": 100
       },
       "night": {
-        "capacity": 80,
+        "capacity": 50,
         "numParkingToFree": 0,
         "driversWithApp": 100,
         "driversWithoutApp": 100
