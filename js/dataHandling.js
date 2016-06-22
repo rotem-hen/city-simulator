@@ -1,23 +1,27 @@
 App.DataHandling = new function () {
 
-	var _this = this;
+    var _this = this;
 
     _this.stats = [];
     _this.savedMinutes = 0;
-	_this.minutePrice = 0.5;
-    _this.chartValues = {2: ['0.5', '1', '1.5', '2'],
-                        4: ['1', '2', '3', '4'],
-                        6: ['1.5', '3', '4.5', '6'],
-                        8: ['2', '4', '6', '8'],
-                        10: ['2.5', '5', '7.5', '10']};
+    _this.minutePrice = 0.5;
+    _this.chartValues = {
+        2: ['0.5', '1', '1.5', '2'],
+        4: ['1', '2', '3', '4'],
+        6: ['1.5', '3', '4.5', '6'],
+        8: ['2', '4', '6', '8'],
+        10: ['2.5', '5', '7.5', '10']
+    };
 
     // sum
     var sum = (memo, num) => memo + num;
 
     // set the GUI average times
     var setAverage = function (isRunWithApp, isDriverWithApp) {
-        var filtered = _.where(_this.stats, {isRunWithApp: isRunWithApp,
-                                            isDriverWithApp: isDriverWithApp});
+        var filtered = _.where(_this.stats, {
+            isRunWithApp: isRunWithApp,
+            isDriverWithApp: isDriverWithApp
+        });
         var statsProp = isDriverWithApp ? 'with-app-' : 'without-app-',
             statsAr = filtered.map(obj => obj.timeToFind),
             avg = statsAr.length === 0 ? 0
@@ -27,11 +31,13 @@ App.DataHandling = new function () {
 
     // add entry to file
     var addEntry = function (isRunWithApp, isDriverWithApp, timeToFind) {
-        _this.stats.push({isRunWithApp: isRunWithApp,
-                            isDriverWithApp: isDriverWithApp,
-                            timeToFind: timeToFind});
+        _this.stats.push({
+            isRunWithApp: isRunWithApp,
+            isDriverWithApp: isDriverWithApp,
+            timeToFind: timeToFind
+        });
     };
-    
+
     // process new data entry - add it and update average
     _this.processNewData = function (isRunWithApp, isDriverWithApp, timeToFind) {
         addEntry(isRunWithApp, isDriverWithApp, timeToFind);
@@ -51,7 +57,11 @@ App.DataHandling = new function () {
     // button action for the statistics year buttons
     _this.onYearButtonClick = function (id) {
         _this.chartsData = calculateDataByYear(id);
-        drawChart(_this.chartsData);
+
+        $('#statistics-modal').one('show.bs.modal', function (e) {
+            drawChart(_this.chartsData);
+        });
+
         $('#statistics-modal').modal('show');
     };
 
@@ -66,7 +76,7 @@ App.DataHandling = new function () {
     var calculateSavedTime = function (id, minPerDriverYear) {
         var res = [];
 
-        _this.chartValues[id].forEach ( function (years) {
+        _this.chartValues[id].forEach(function (years) {
             res.push((minPerDriverYear * years * Math.pow(1.01, years - 1)).toFixed(0));
         });
 
@@ -77,7 +87,7 @@ App.DataHandling = new function () {
     var calculateSavedMoney = function (id, minPerDriverYear) {
         var res = [];
 
-        _this.chartValues[id].forEach ( function (years) {
+        _this.chartValues[id].forEach(function (years) {
             res.push((minPerDriverYear * years * _this.minutePrice * Math.pow(1.01, years - 1)).toFixed(0));
         });
 
@@ -87,14 +97,14 @@ App.DataHandling = new function () {
     // calculate saved pollution for every period of time
     var calculateSavedPollution = function (id) {
         var res = [],
-			decreaseTimePercent = _this.savedMinutes * 100 / _this.withoutAppTotal,
-			decreasePollutionPercent = decreaseTimePercent * 0.15;
-		
-		_this.chartValues[id].forEach ( function (years) {
+            decreaseTimePercent = _this.savedMinutes * 100 / _this.withoutAppTotal,
+            decreasePollutionPercent = decreaseTimePercent * 0.15;
+
+        _this.chartValues[id].forEach(function (years) {
             res.push((decreasePollutionPercent * Math.pow(1.01, years - 1)).toFixed(2));
         });
-		
-		return res;
+
+        return res;
     };
 
     // stringify - add 'year' or 'years' to the number
@@ -105,7 +115,7 @@ App.DataHandling = new function () {
     // calculate all chart's parameters
     var calculateDataByYear = function (id) {
         var minPerYear = calculateMinutesSavedPerYear(),
-			numOfDrivers = App.ScenarioHandling.getTotalNumOfDrivers(App.RunningScenario.scenario.id),
+            numOfDrivers = App.ScenarioHandling.getTotalNumOfDrivers(App.RunningScenario.scenario.id),
             savedTime = calculateSavedTime(id, minPerYear / numOfDrivers),
             savedMoney = calculateSavedMoney(id, minPerYear / numOfDrivers),
             savedPollution = calculateSavedPollution(id);
@@ -157,7 +167,7 @@ App.DataHandling = new function () {
                 "trendLines": [],
                 "graphs": [
                     {
-						"balloonText": "[[value]] min.",
+                        "balloonText": "[[value]] min.",
                         "fillAlphas": 1,
                         "fillColors": "#11C4E1",
                         "id": "savedTime",
@@ -167,7 +177,7 @@ App.DataHandling = new function () {
                         "valueField": "savedTime"
                     },
                     {
-						"balloonText": "[[value]] ILS",
+                        "balloonText": "[[value]] ILS",
                         "fillAlphas": 1,
                         "fillColors": "#FB8A8A",
                         "id": "savedMoney",
@@ -177,7 +187,7 @@ App.DataHandling = new function () {
                         "valueField": "savedMoney"
                     },
                     {
-						"balloonText": "[[value]]%",
+                        "balloonText": "[[value]]%",
                         "fillAlphas": 1,
                         "fillColors": "#F9D46F",
                         "id": "savedPollution",
