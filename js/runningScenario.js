@@ -297,12 +297,19 @@ App.RunningScenario = new function () {
             });
     };
 
+
+
     _this.onStopClick = function () {
+        resetRun();
         App.DataHandling.stats = [];
         App.DataHandling.savedMinutes = 0;
+    };
+
+    var resetRun = function () {
         App.Clock.off('change:time',_this.onTimeChange);
         App.Clock.resetClock();
         App.Clock.resetTimeEvents();
+        App.Drivers.reset();
         _this.spotsToOccupyAfterAppRun = {morning: [], noon: [], evening: [], night: []};
         _this.spotsToFreeAfterAppRun = {morning: [], noon: [], evening: [], night: []};
         $('#with-app-avg').text('-');
@@ -312,7 +319,7 @@ App.RunningScenario = new function () {
         $('#stop').hide();
         $('#run').show();
     };
-    
+
     var switchRuns = function () {
         _this.isRunWithApp = false;
         $('#with-app-avg').text('-');
@@ -321,16 +328,10 @@ App.RunningScenario = new function () {
     };
 
     var onRunEnd = function () {
-        App.Clock.resetClock();
-        App.Clock.resetTimeEvents();
-        App.Maps.clearAllMarkers();
-        _this.spotsToOccupyAfterAppRun = {morning: [], noon: [], evening: [], night: []};
-        _this.spotsToFreeAfterAppRun = {morning: [], noon: [], evening: [], night: []};
+        resetRun();
+        App.Clock.resetClAfterAppRun = {morning: [], noon: [], evening: [], night: []};
         App.DataHandling.calculateSavedMinutes();
         $('#year-buttons-div').show(500);
-        $('#settings').prop('disabled', false);
-        $('#stop').hide();
-        $('#run').show();
     };
 
 }();
