@@ -303,6 +303,8 @@ App.RunningScenario = new function () {
         App.Clock.off('change:time',_this.onTimeChange);
         App.Clock.resetClock();
         App.Clock.resetTimeEvents();
+        _this.spotsToOccupyAfterAppRun = {morning: [], noon: [], evening: [], night: []};
+        _this.spotsToFreeAfterAppRun = {morning: [], noon: [], evening: [], night: []};
         $('#with-app-avg').text('-');
         $('#without-app-avg').text('-');
         App.Maps.clearAllMarkers();
@@ -322,6 +324,8 @@ App.RunningScenario = new function () {
         App.Clock.resetClock();
         App.Clock.resetTimeEvents();
         App.Maps.clearAllMarkers();
+        _this.spotsToOccupyAfterAppRun = {morning: [], noon: [], evening: [], night: []};
+        _this.spotsToFreeAfterAppRun = {morning: [], noon: [], evening: [], night: []};
         App.DataHandling.calculateSavedMinutes();
         $('#year-buttons-div').show(500);
         $('#settings').prop('disabled', false);
